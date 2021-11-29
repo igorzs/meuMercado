@@ -1,9 +1,20 @@
 <?php
     require dirname(__FILE__). '/head.php';
 ?>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Produtos</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+
 <body>
 <div class="container">
 <div class="container-fluid">
+    <h2>Produtos</h2>
 <button class="form-control" onclick="window.location.href='./logout.php'">Sair</button>
 <table class="table table-bordered" id="myProducts" width="100%" cellspacing="0">
     <thead>
@@ -89,7 +100,7 @@
                     "sInfoFiltered": "(Filtrados de _MAX_ registros)",
                     "sInfoPostFix": "",
                     "sInfoThousands": ".",
-                    "sLengthMenu": "_MENU_ resultados por p&aacute;gina",
+                    "sLengthMenu": "_MENU_ Resultados por p&aacute;gina",
                     "sLoadingRecords": "Carregando...",
                     "sProcessing": "Processando...",
                     "sZeroRecords": "Nenhum registro encontrado",
