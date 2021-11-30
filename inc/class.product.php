@@ -14,6 +14,12 @@ class Product{
     function __construct(){
         $this->conex = new Conex();
     }
+    function save($cod, $productName, $productType, $productValue, $productInv){
+        $sql = "INSERT INTO TBPRODUCTS (COD,PRODUCT_NAME, PRODUCT_TYPE, PRODUCT_VALUE, PRODUCT_INVENTORY) 
+        VALUES ('$cod', '$productName', $productType, $productValue, $productInv)";
+        $result = $this->conex->executeQuery($sql);
+        return $result;
+    }
 
     function getProduct($id){
         $sql = "SELECT * FROM TBPRODUCTS WHERE ID = $id";
