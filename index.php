@@ -1,5 +1,8 @@
 <?php
     require dirname(__FILE__). '/head.php';
+
+    $userJob = (int)$_SESSION['JOB_ID'];
+    $isUserAdmin = $userJob == 0 ? 1 : 0; 
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -12,10 +15,20 @@
 </head>
 
 <body>
-<div class="container">
+<div class="container" style="margin-top: -10%;">
+    <div class='row'>
+        <div style="width:10%;float:right;">
+            <button class="form-control" onclick="window.location.href='./logout.php'">Sair</button>
+        </div>
+    </div>
+
 <div class="container-fluid">
     <h2>Produtos</h2>
-<button class="form-control" onclick="window.location.href='./logout.php'">Sair</button>
+    <div>
+        <?php if($isUserAdmin){?>
+            <button class="form-control" style="width: 10%;float: right;" onclick="getRegisterProduct()">Novo produto</button>
+        <?php } ;?>
+    </div>
 <table class="table table-bordered" id="myProducts" width="100%" cellspacing="0">
     <thead>
         <tr>
@@ -24,7 +37,7 @@
             <th>Tipo</th>
             <th>Valor</th>
             <th>Estoque</th>
-            <th>Ações</th>
+            <?php echo $isUserAdmin? '<th>Ações</th>' : '' ?>
         </tr>
         </thead>
         <tbody></tbody>
@@ -34,8 +47,8 @@
         $(document).ready(function(){
             var myProducts = $('#myProducts').dataTable({
                 dom:"<'row'<'col-sm-10 col-md-10'l><'col-sm-2 col-md-2 d-flex flex-row-reverse'B>>" +
-                                            "<'row'<'col-sm-12'tr>>" +
-                                            "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+                        "<'row'<'col-sm-12'tr>>" +
+                        "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
 
                 pageLength: 50,
                 ordering: false,
@@ -68,16 +81,23 @@
                         data: "PRODUCT_INVENTORY",
                         className: "searchable"
                     },
+
+                    <?php if($isUserAdmin){ ?> 
                     {
                         className: 'product-action',
                         defaultContent: '',
                         data: null,
                         orderable:false
                     }
+                    <?php }; ?>
+                    
+                    
                 ],
-                createdRow: function(row,data,index){
-                    $('.product-action', row).html('<button class="form-control" onclick="showProduct('+data['ID']+')"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button><button class="form-control" onclick="deleteProduct('+data['ID']+')" ><i class="fa fa-trash" aria-hidden="true"></i></button>');
-                },
+                <?php if($isUserAdmin){?>
+                    createdRow: function(row,data,index){
+                        $('.product-action', row).html('<button class="form-control" onclick="showProduct('+data['ID']+')"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button><button class="form-control" onclick="deleteProduct('+data['ID']+')" ><i class="fa fa-trash" aria-hidden="true"></i></button>');
+                    },
+                <?php }; ?>
                 initComplete: function() {
                     // Aplica o campo de busca nas colunas
                     this.api().columns().every(function(index) {
@@ -173,6 +193,13 @@
             }, function(data) {
                 alert(data);
                 $('#myProducts').DataTable().ajax.reload();
+            });
+        }
+
+        function getRegisterProduct(){
+            $.post("getRegisterProduct.php", function(data){
+                $("#modalProduct").html(data);
+                $("#modalProduct").modal('show');
             });
         }
     </script>
