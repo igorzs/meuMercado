@@ -1,8 +1,6 @@
 <?php
 require dirname(__FILE__). '/config/config.php';
 
-$productObj = new Product();
-$product = $productObj->getProduct($_POST['ID']);
 $productTypes = array(
     0 => "Cerveja",
     1 => "Suco",
@@ -13,37 +11,42 @@ $productTypes = array(
 echo "<div class='modal-dialog' role='document'>
         <div class='modal-content'>
         <div class='modal-header'>
-            <h3 class='modal-title' id='showProductTitle'><b>#".$product['COD']."</b> - ".$product['PRODUCT_NAME']."</h3>
+            <h3 class='modal-title' id='showProductTitle'><b>Cadastrar novo produto</h3>
             <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
             <span aria-hidden='true'>&times;</span>
             </button>
         </div>
         <div class='modal-body'>
-            <form action='updateproduct.php' id='updateForm' method='POST'>
+            <form action='registerproduct.php' id='registerForm' method='POST'>
 
+                <div class='row'>
+                    <div class='col-xs-12'>
+                        <label>Código do produto:</label>
+                        <input type='text' class='form-control' name='product-cod'>
+                    </div>
+                </div>
+                <br>
                 <div class='row'>
                     <div class='col-xs-3'>
                         <label>Nome:</label>
-                        <input type='text' class='form-control' name='product-name' value='".$product['PRODUCT_NAME']."'>
+                        <input type='text' class='form-control' name='product-name' placeholder'ex.:Skol, Itaipava'>
                     </div>
                     <div class='col-xs-3'>
                         <label>Tipo:</label>
                         <select  class='form-control' name='product-type'>";
                         foreach($productTypes as $key=>$value){
-                            $selected = $product['PRODUCT_TYPE'] == $key ? 'selected' : '';
-                            echo "<option value='$key' $selected >$value</option>";
+                            echo "<option value='$key'>$value</option>";
                         }
                         echo "</select>
                     </div>
                     <div class='col-xs-3'>
                         <label>Valor:</label>
-                        <input type='number'  class='form-control' name='product-value' value='".$product['PRODUCT_VALUE']."'>
+                        <input type='number'  class='form-control' name='product-value' plaholder='ex.:1,50'>
                     </div>
                     <div class='col-xs-3'>
                         <label>Estoque:</label>
-                        <input type='number'  class='form-control' name='product-inventory' value='".$product['PRODUCT_INVENTORY']."'>
+                        <input type='number'  class='form-control' name='product-inventory'>
                     </div>
-                    <input type='hidden' name='id' id='id-product' value='".$product['ID']."'>
                 </div>
             </form>
 
@@ -52,33 +55,36 @@ echo "<div class='modal-dialog' role='document'>
         </div>
         <div class='modal-footer'>
             <button type='button' class='btn btn-secondary' data-dismiss='modal'>Fechar</button>
-            <button class='btn btn-primary' id='save-product'>Salvar</button>
+            <button class='btn btn-primary' id='register-product'>Cadastrar</button>
         </div>
         </div>
     </div>
     <script>
         $(document).ready(function(){
-            $( '#save-product' ).click(function() {
-                var dados = $('#updateForm').serialize();
+            $( '#register-product' ).click(function() {
+                var dados = $('#registerForm').serialize();
                 $.ajax({
                     type: 'POST',
-                    url: 'updateproduct.php',
+                    url: 'registerproduct.php',
                     data: dados,
                     success: function(data){
+
                         var dataJson = JSON.parse(data);
 
                         if(dataJson.status){
                             $('#myProducts').DataTable().ajax.reload();
-
                             $('#modalProduct').modal('hide');
                         }
+
                         alert(dataJson.message);
 
+                        
                     }
                 });
 
             });
         });
     </script>";
+
 
 ?>

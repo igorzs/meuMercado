@@ -1,0 +1,15 @@
+1 ) Baixar a última versão do XAMPP;
+2 ) Depois de instalado, dentro da pasta de instalação do XAMPP haverá uma pasta chamada 'htdocs'.
+    dentro dela, crie uma pasta chamada 'mercado' e depois extraia os arquivos do projeto lá;
+3 ) Abra o XAMPP e inicie os serviços do Apache e MySQL;
+4 ) Entre no PhpMyAdmin acessando pelo navegado 'localhost/phpmyadmin';
+5 ) Crie um banco de dados com o nome 'mercado', logo depois importe as tabelas importando o arquivo .sql 
+    que está na pasta 'banco' junto com os arquivos do projeto;
+6 ) Acesse a aplicação pelo navegado pelo link 'localhost/mercado';
+
+USUÁRIOS DO SISTEMA:
+    Usuário Admin (pode cadastrar, editar e excluir produtos)
+    E-mail: admin@meumercado.com.br Pass:102030
+
+    Usuário Comum (não pode cadastrar, editar ou excluir produtos, apenas visualizar produtos)
+    E-mail: vendedor@meumercado.com.br Pass:102030

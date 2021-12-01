@@ -27,6 +27,12 @@ class Product{
         return $result[0];
     }
 
+    function existCodProduct($cod){
+        $sql = "SELECT * FROM TBPRODUCTS WHERE COD = '$cod'";
+        $result = $this->conex->executeQuery($sql);
+        return $result;
+    }
+
     function deleteProduct($id){
         $sql = "DELETE FROM TBPRODUCTS WHERE ID = $id";
         $result = $this->conex->executeQuery($sql);
